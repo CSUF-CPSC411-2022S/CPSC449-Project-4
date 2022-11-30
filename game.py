@@ -237,7 +237,6 @@ async def my_game():
     else:
         return { "Message": "Not A Valid Id" },406
 
-
 @app.errorhandler(409)
 def conflict(e):
     return {"error": str(e)}, 409
