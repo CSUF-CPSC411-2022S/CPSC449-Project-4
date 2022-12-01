@@ -1,0 +1,64 @@
+#Follow the steps in sequence
+#1. Populate the leaderboard by adding values to the sorted set
+
+ZADD players:score 1.2 51
+                  2 56
+                  3 67                                                                                             
+                  2.5 25
+                  2.7 65
+                  1.2 52
+                  6 78
+                  5.5 68
+                  5 27
+                  4.5 16
+                  4.7 69
+                  2.6 90
+                  1.5 99
+                  4.8 15
+                  3.3 9
+
+# Output: integer 13, meaning that 13 new members were added to the sorted set.
+
+#2. To sort the top 10 highest to lowest score, do:
+ZREVRANGE players:score 0 9 WITHSCORES
+
+#Output
+ 1) "78"  <Player ID>
+ 2) "6"   <Score>
+ 3) "68"
+ 4) "5.5"
+ 5) "27"
+ 6) "5"
+ 7) "15"
+ 8) "4.7999999999999998"
+ 9) "69"
+10) "4.7000000000000002"
+11) "16"
+12) "4.5"
+13) "9"
+14) "3.2999999999999998"
+15) "67"
+16) "3"
+17) "65"
+18) "2.7000000000000002"
+19) "90"
+20) "2.6000000000000001"
+
+#Result is displayed as a ID,Score pair. These are the top 10 from highest to lowest score. (From 6 to 0)
+
+
+
+#Explanation for commands
+
+
+       ZADD            layers:score      1.2            51
+[Add to sorted set]         [Key]      [score]   [Unique Player ID]
+
+
+     ZREVRANGE          players:score                0 9                       WITHSCORES
+[Highest to Lowest]         [Key]         [Display top 10 scoring players]    [Show scores]
+
+
+
+
+
