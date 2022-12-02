@@ -1,0 +1,11 @@
+mount-dir: "./var/tertiary/mount"
+
+data-dir: "./var/tertiary/data"
+
+http:
+  addr: ":5300"
+
+static:
+  primary: false
+  hostname: "localhost"
+  advertise-url: "http://127.0.0.1:5100"

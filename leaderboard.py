@@ -1,3 +1,7 @@
+# leaderboard: hypercorn leaderboard --reload --debug --bind leaderboard.local.gd:$PORT --access-logfile - --error-logfile - --log-level DEBUG
+# primary: ./bin/litefs -config ./etc/primary.yml
+# secondary1: ./bin/litefs -config ./etc/secondary1.yml
+# secondary2: ./bin/litefs -config ./etc/secondary2.yml
 from cmath import exp
 from pydoc import doc
 import databases
@@ -30,8 +34,8 @@ def _get_db():
 
 @dataclasses.dataclass
 class results:
-    score: string
-    result: string
+    score: str
+    result: str
 
 
 @app.teardown_appcontext
@@ -46,7 +50,6 @@ async def results(data):
     game = dataclasses.asdict(data)
     r = redis.Redis(db=0)
     r.mset({"Result" : game.get("result"), "Score": game.get("score")})
-
 
 
 @app.route("/top10", methods=["GET"])

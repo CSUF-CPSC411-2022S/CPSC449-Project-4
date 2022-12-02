@@ -5,9 +5,9 @@ data-dir: "./var/primary/data"
 exec: hypercorn game --reload --debug --bind game.local.gd:$PORT --access-logfile - --error-logfile - --log-level DEBUG
 
 http:
-  addr: ":20202"
+  addr: ":5100"
 
 static:
   primary: true
   hostname: "localhost"
-  advertise-url: "http://tuffix-vm:20202"
+  advertise-url: "http://127.0.0.1:5100"
