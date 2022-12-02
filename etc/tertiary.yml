@@ -7,5 +7,5 @@ http:
 
 static:
   primary: false
-  hostname: "localhost"
+  hostname: "tuffix-vm"
   advertise-url: "http://127.0.0.1:5100"

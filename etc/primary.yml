@@ -2,12 +2,12 @@ mount-dir: "./var/primary/mount"
 
 data-dir: "./var/primary/data"
 
-exec: hypercorn game --reload --debug --bind game.local.gd:$PORT --access-logfile - --error-logfile - --log-level DEBUG
+exec: hypercorn game --reload --debug --bind game.local.gd:5104 --access-logfile - --error-logfile - --log-level DEBUG
 
 http:
   addr: ":5100"
 
 static:
   primary: true
-  hostname: "localhost"
+  hostname: "tuffix-vm"
   advertise-url: "http://127.0.0.1:5100"
