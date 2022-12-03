@@ -11,10 +11,15 @@ Steps to run the project:
 
    foreman start
 
+2. After the API has started, run the following to initalize the databases
+
+   ./bin/init.sh
+
 2. Go to local.gd docs to view and test all the endpoints
 
-   http://wordle.local.gd:5000/docs
-   http://wordle.local.gd:5101/docs
+   http://wordle.local.gd:5000/docs#/
+   http://wordle.local.gd:5101/docs#/
+   http://wordle.local.gd:5104/docs#/
 
 
 
