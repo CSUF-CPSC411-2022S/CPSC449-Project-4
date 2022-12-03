@@ -119,6 +119,7 @@ async def results(data):
 
 @app.route("/top10", methods=["GET"])
 async def top10():
-    r = redis.Redis(db=1)
-    leaderboard = r.zrevrange("users", 0, -1, withscores=True)
+    r = redis.Redis(db=1, charset="utf-8", decode_responses=True)
+    leaderboard = r.zrevrange("users", 0, 9, withscores=True)
     return leaderboard
+
