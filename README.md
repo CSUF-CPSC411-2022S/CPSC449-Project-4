@@ -17,9 +17,18 @@ Steps to run the project:
 
 2. Go to local.gd docs to view and test all the endpoints
 
+   Users Microservice: 
+
    http://wordle.local.gd:5000/docs#/
-   http://wordle.local.gd:5101/docs#/
-   http://wordle.local.gd:5104/docs#/
+
+   Leaderboard Microservice:
+   http://wordle.local.gd:5100/docs#/
+
+   Games Microservice:
+   
+   http://wordle.local.gd:5200/docs#/
+   http://wordle.local.gd:5300/docs#/
+   http://wordle.local.gd:5400/docs#/
 
 
 

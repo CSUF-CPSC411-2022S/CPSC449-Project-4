@@ -3,9 +3,9 @@ mount-dir: "./var/tertiary/mount"
 data-dir: "./var/tertiary/data"
 
 http:
-  addr: ":5300"
+  addr: ":2002"
 
 static:
   primary: false
   hostname: "tuffix-vm"
-  advertise-url: "http://127.0.0.1:5100"
+  advertise-url: "http://tuffix-vm:2000"
