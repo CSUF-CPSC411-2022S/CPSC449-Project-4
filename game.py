@@ -10,6 +10,9 @@ import uuid
 import random
 import databases
 import toml
+import json
+import httpx
+import redis
 
 from quart import Quart, g, request, abort
 from quart_schema import QuartSchema, RequestSchemaValidationError, validate_request
@@ -31,6 +34,11 @@ dictConfig({
 # @dataclasses.dataclass
 # class Game:
 #     username: str
+
+@dataclasses.dataclass
+class Info:
+    user: str
+
 
 @dataclasses.dataclass
 class Guess:
@@ -239,6 +247,40 @@ async def my_game():
         return list(map(dict,guess_val))
     else:
         return { "Message": "Not A Valid Id" },406
+
+@app.route("/<string:username>", methods=["GET"])
+async def get_score(username):
+    r = redis.Redis(db=2, charset="utf-8", decode_responses=True)
+    check_user_exists = r.mget("127.0.0.1:5100/"+username)
+    if check_user_exists:
+        return {"Hi "+username+ "! your score is": check_user_exists[0]}, 200
+    return {"Error ": "URL does not exist"}
+
+@app.route("/send", methods=["POST"])
+@validate_request(Info)
+async def send_info(data):
+    # Database for grabbing score
+    r = redis.Redis(db=1, charset="utf-8", decode_responses=True)
+
+    # Database for callbackURL
+    r2 = redis.Redis(db=2, charset="utf-8", decode_responses=True)
+    info = dataclasses.asdict(data)
+    user = info.get("user")
+    callbackURL = "127.0.0.1:5100/" + str(user)
+    check_callbackURL = r2.mget(callbackURL)
+    if check_callbackURL:
+        return {"Error " : "User has already been added to URL "+callbackURL}
+    check_user_exists = r.zrange("users", 0, -1, withscores=True)
+    for i in range(len(check_user_exists)):
+        if check_user_exists[i][0] == user:
+            try:
+                r2.mset({callbackURL : str(check_user_exists[i][1])})
+                return {"Success!" : "It worked."}, 200
+            except:
+                return { "Failure" : "Try again1"}
+    r2.mset({callbackURL : 0})
+    return { user : "has been added to "+callbackURL+" with a score of 0"}
+
 
 @app.errorhandler(409)
 def conflict(e):
