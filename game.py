@@ -254,7 +254,7 @@ async def get_score(username):
     check_user_exists = r.mget("127.0.0.1:5100/"+username)
     if check_user_exists:
         return {"Hi "+username+ "! your score is": check_user_exists[0]}, 200
-    return {"Error ": "URL does not exist"}
+    return {"Error ": "URL does not exist"}, 400
 
 @app.route("/send", methods=["POST"])
 @validate_request(Info)
@@ -277,9 +277,9 @@ async def send_info(data):
                 r2.mset({callbackURL : str(check_user_exists[i][1])})
                 return {"Success!" : "It worked."}, 200
             except:
-                return { "Failure" : "Try again1"}
+                return { "Error" : "Could not find user score"}, 400
     r2.mset({callbackURL : 0})
-    return { user : "has been added to "+callbackURL+" with a score of 0"}
+    return { user : "has been added to "+callbackURL+" with a score of 0"}, 200
 
 
 @app.errorhandler(409)
