@@ -9,6 +9,11 @@ import uuid
 import databases
 import toml
 import redis
+import os
+import socket
+import httpx
+import json
+from time import sleep
 
 from quart import Quart, g, request, abort
 from quart_schema import QuartSchema, RequestSchemaValidationError, validate_request
@@ -34,7 +39,20 @@ class Results:
 #     Might need 2 redis connections
 
 
-
+@app.route("/", methods=["GET"])
+async def sync_game_serv():
+    result = None
+    counter = 0
+    while result is None:
+        try:
+            game_URL = socket.getfqdn("127.0.0.1:5400")
+            result = httpx.get("http://"+game_URL)
+            return {"Success":"Synced with game service"}, 200
+        except httpx.RequestError:
+            if counter == 5:
+                return {"Retried 5 times": "Timeout"}, 400
+            sleep(5.0)
+            counter += 1
 
 @app.route("/results", methods=["POST"])
 @validate_request(Results)
@@ -122,4 +140,3 @@ async def top10():
     r = redis.Redis(db=1, charset="utf-8", decode_responses=True)
     leaderboard = r.zrevrange("users", 0, 9, withscores=True)
     return leaderboard
-
