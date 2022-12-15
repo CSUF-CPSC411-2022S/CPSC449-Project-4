@@ -13,6 +13,7 @@ import os
 import socket
 import httpx
 import json
+import time
 from time import sleep
 
 from quart import Quart, g, request, abort
@@ -23,17 +24,17 @@ QuartSchema(app)
 
 result = None
 counter = 0
-time = 0
+timer = 0
 while result is None:
     try:
         game_URL = socket.getfqdn("127.0.0.1:5400")
         result = httpx.get("http://"+game_URL)
         print("Game service is ready")
     except httpx.RequestError:
-        sleep(5.0)
-        time += 5
+        time.sleep(5.0)
+        timer += 5
         counter += 1
-        print("Waiting for game service, alloted time: ", time, " seconds\n")
+        print("Waiting for game service, alloted time: ", timer, " seconds\n")
 
 @dataclasses.dataclass
 class Results:
