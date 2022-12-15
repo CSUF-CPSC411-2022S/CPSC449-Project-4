@@ -23,16 +23,16 @@ QuartSchema(app)
 
 result = None
 counter = 0
-time_passed = 0
+time = 0
 while result is None:
     try:
         game_URL = socket.getfqdn("127.0.0.1:5400")
         result = httpx.get("http://"+game_URL)
     except httpx.RequestError:
-        time.sleep(5.0)
-        time_passed += 5
+        sleep(5.0)
+        time += 5
         counter += 1
-        print("Waiting for game service, alloted time: ", time_passed, " seconds\n")
+        print("Waiting for game service, alloted time: ", time, " seconds\n")
 
 @dataclasses.dataclass
 class Results:
