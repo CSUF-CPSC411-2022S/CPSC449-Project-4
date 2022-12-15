@@ -28,6 +28,7 @@ while result is None:
     try:
         game_URL = socket.getfqdn("127.0.0.1:5400")
         result = httpx.get("http://"+game_URL)
+        print("Game service is ready")
     except httpx.RequestError:
         sleep(5.0)
         time += 5
