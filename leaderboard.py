@@ -31,7 +31,7 @@ while result is None:
         result = httpx.get("http://"+game_URL)
         print("Game service is ready")
     except httpx.RequestError:
-        time.sleep(5.0)
+        time.sleep(20.0)
         timer += 5
         counter += 1
         print("Waiting for game service, alloted time: ", timer, " seconds\n")
