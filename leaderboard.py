@@ -71,17 +71,17 @@ async def results(data):
     score = 0
     if guesses <= 0 or guesses > 6:
         return {"Error" : "Invalid number of guesses"}, 400
-    if guesses == 1 and res == 'W' or res == 'w':
+    if guesses == 1 and (res == 'W' or res == 'w'):
         score = 6
-    elif guesses == 2 and res == 'W' or res == 'w':
+    elif guesses == 2 and (res == 'W' or res == 'w'):
         score = 5
-    elif guesses == 3 and res == 'W' or res == 'w':
+    elif guesses == 3 and (res == 'W' or res == 'w'):
         score = 4
-    elif guesses == 4 and res == 'W' or res == 'w':
+    elif guesses == 4 and (res == 'W' or res == 'w'):
         score = 3
-    elif guesses == 5 and res == 'W' or res == 'w':
+    elif guesses == 5 and (res == 'W' or res == 'w'):
         score = 2
-    elif guesses == 6 and res == 'W' or res == 'w':
+    elif guesses == 6 and (res == 'W' or res == 'w'):
         score = 1
 
     try:
