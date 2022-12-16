@@ -7,3 +7,4 @@ game3: hypercorn game --reload --debug --bind game.local.gd:$PORT --access-logfi
 primary: bin/litefs -config ./etc/primary.yml
 secondary: bin/litefs -config ./etc/secondary.yml
 tertiary: bin/litefs -config ./etc/tertiary.yml
+worker: rq worker --verbose --url redis://127.0.0.1:6379/3
