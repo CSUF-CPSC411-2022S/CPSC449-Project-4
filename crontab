@@ -1,2 +1,0 @@
-*/10 * * * * run-one rq requeue --all --queue default
-
