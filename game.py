@@ -9,17 +9,20 @@ import textwrap
 import uuid
 import random
 import databases
+import rq
 import toml
 import json
 import httpx
 import redis
-
+from rq import Queue
+from rq.registry import FailedJobRegistry
 from quart import Quart, g, request, abort
 from quart_schema import QuartSchema, RequestSchemaValidationError, validate_request
 
 app = Quart(__name__)
 QuartSchema(app)
-
+queue = Queue(connection=redis.Redis(db=3))  # Enque jobs, stored in redis db 3. (for RQ workers)
+registry = FailedJobRegistry(queue=queue)  # for failed jobs
 app.config.from_file(f"./etc/{__name__}.toml", toml.load)
 
 dictConfig({
@@ -138,6 +141,9 @@ async def add_guess(data):
 
         #is guessed word the answer
         if isAnswer is not None and len(isAnswer) >= 1:
+            guessNum = await readDB.fetch_one("SELECT guesses from game where gameid = :gameid",
+                                              values={"gameid": currGame["gameid"]})
+            queue.enqueue(send_score, currGame['gameid'], guessNum[0] + 1, 'w', auth['username'])
             #update game status
             try:
                 id_games = await writeDB.execute(
@@ -281,6 +287,19 @@ async def send_info(data):
     r2.mset({callbackURL : 0})
     return { user : "has been added to "+callbackURL+" with a score of 0"}, 200
 
+
+def send_score(gameid, guess, w, username):
+    # app.logger.info(gameid)
+    # app.logger.info(guess)
+    # app.logger.info(w)
+    # app.logger.info(username)
+    data = {'game_id': gameid,
+            'guesses': guess,
+            'result': w,
+            'username': username
+            }
+    r = httpx.post('http://wordle.local.gd:5100/results', json=data)
+    app.logger.info(r)
 
 @app.errorhandler(409)
 def conflict(e):
