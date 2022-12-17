@@ -11,15 +11,17 @@ Steps to run the project:
 
 1. Ensure that your nginx is configured to our tutorial.txt 
 
-2. Start the API by running
+2. Open cronjob-config and paste the script into the crontab config to schedule the command.
+
+3. Start the API by running
 
    foreman start
 
-3. After the API has started, run the following to initalize the databases
+4. After the API has started, run the following to initalize the databases
 
    ./bin/init.sh
 
-4. Go to local.gd docs to view and test all the endpoints
+5. Go to local.gd docs to view and test all the endpoints
 
    Users Microservice: 
 
