@@ -14,4 +14,4 @@
 # |
 # Min(0-59)
 
-*/10 * * * * run-one rq requeue --all --queue default ; echo 'rq requeue has executed' >> /tmp/test.txt
+*/10 * * * * run-one rq requeue --all --queue default

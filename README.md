@@ -1,21 +1,25 @@
-# Wordle Backend Project 3 : API Endpoints
+# Wordle Backend Project 4 : API Endpoints
 
 Group 4 team members:
+
 Justin Galvez
 Mark Carbajal
-Yahya Nashawati
+Juan Sierra
+
 
 Steps to run the project:
 
-1. Start the API by running
+1. Ensure that your nginx is configured to our tutorial.txt 
+
+2. Start the API by running
 
    foreman start
 
-2. After the API has started, run the following to initalize the databases
+3. After the API has started, run the following to initalize the databases
 
    ./bin/init.sh
 
-2. Go to local.gd docs to view and test all the endpoints
+4. Go to local.gd docs to view and test all the endpoints
 
    Users Microservice: 
 
